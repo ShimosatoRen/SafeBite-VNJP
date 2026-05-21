@@ -1,8 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@* @model List<SafeBite_VNJP.Models.Customer>
+
+@{
+    ViewData["Title"] = "顧客一覧";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>顧客一覧</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>会社名</th>
+            <th>メール</th>
+            <th>電話</th>
+            <th>住所</th>
+            <th>登録日</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.CustomerId</td>
+                <td>@c.CustomerName</td>
+                <td>@c.Email</td>
+                <td>@c.Phone</td>
+                <td>@c.Address</td>
+                <td>@c.CreatedAt</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
