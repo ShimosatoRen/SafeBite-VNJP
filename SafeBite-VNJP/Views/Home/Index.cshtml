@@ -1,33 +1,105 @@
-﻿@* @model List<SafeBite_VNJP.Models.Customer>
-
-@{
-    ViewData["Title"] = "顧客一覧";
+﻿@{
+    ViewData["Title"] = "SafeBite-VNJP";
 }
 
-<h2>顧客一覧</h2>
+<div class="text-center mt-5">
+    <h1 class="display-4">SafeBite-VNJP</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>会社名</th>
-            <th>メール</th>
-            <th>電話</th>
-            <th>住所</th>
-            <th>登録日</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var c in Model)
-        {
-            <tr>
-                <td>@c.CustomerId</td>
-                <td>@c.CustomerName</td>
-                <td>@c.Email</td>
-                <td>@c.Phone</td>
-                <td>@c.Address</td>
-                <td>@c.CreatedAt</td>
-            </tr>
-        }
-    </tbody>
-</table> *@
+    <p class="lead">
+        飲食店の原材料・アレルギー情報共有サイト
+    </p>
+</div>
+
+<hr />
+
+<div class="container mt-4">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Users</h5>
+
+                    <p class="card-text">
+                        ユーザー一覧
+                    </p>
+
+                    <a href="/users" class="btn btn-primary">
+                        開く
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Restaurants</h5>
+
+                    <p class="card-text">
+                        飲食店一覧
+                    </p>
+
+                    <a href="/restaurants" class="btn btn-success">
+                        開く
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Reviews</h5>
+
+                    <p class="card-text">
+                        レビュー一覧
+                    </p>
+
+                    <a href="/reviews" class="btn btn-warning">
+                        開く
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-2">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">IngredientPosts</h5>
+
+                    <p class="card-text">
+                        原材料投稿一覧
+                    </p>
+
+                    <a href="/ingredientposts" class="btn btn-info">
+                        開く
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">DietaryTags</h5>
+
+                    <p class="card-text">
+                        食事制限タグ一覧
+                    </p>
+
+                    <a href="/dietarytags" class="btn btn-dark">
+                        開く
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
