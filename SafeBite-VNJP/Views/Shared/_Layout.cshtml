@@ -1,115 +1,106 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SafeBite_VNJP.Data;
+using SafeBite_VNJP.Models;
 
-    <title>@ViewData["Title"] - SafeBite VN-JP</title>
+namespace SafeBite_VNJP
+{
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-    <!-- 共通CSS -->
-    <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<AppDbContext>();
 
-</head>
+            builder.Services.AddControllersWithViews();
 
-<body class="bg-light">
+            var app = builder.Build();
 
-    <!-- ヘッダー -->
-    <header class="shadow-sm bg-white">
-        <nav class="navbar navbar-expand-lg navbar-light container py-3">
+            // ========================
+            // データベース接続テスト + Seed
+            // ========================
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            <!-- ロゴ -->
-            <a class="navbar-brand fw-bold text-success"
-               asp-controller="Home"
-               asp-action="Index">
-                SafeBite VN-JP
-            </a>
+                try
+                {
+                    var canConnect = await context.Database.CanConnectAsync();
+                    Console.WriteLine(canConnect ?
+                        "✅ データベース接続成功！" : "❌ 接続失敗");
 
-            <!-- スマホ用ボタン -->
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarMenu">
+                    // マイグレーション適用
+                    await context.Database.MigrateAsync();
+                    Console.WriteLine("✅ マイグレーション適用完了");
 
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                    // データ投入
+                    if (!await context.Restaurants.AnyAsync())
+                    {
+                        context.Restaurants.AddRange(
+                            new Restaurant
+                            {
+                                Name = "フォー・ティン",
+                                Genre = "フォー",
+                                Address = "ホーチミン12区",
+                                Description = "本場の牛肉フォー"
+                            },
+                            new Restaurant
+                            {
+                                Name = "ブン・チャー屋台",
+                                Genre = "ブン",
+                                Address = "ホーチミン12区",
+                                Description = "グリル豚が美味しい"
+                            },
+                            new Restaurant
+                            {
+                                Name = "ナイトマーケット屋台",
+                                Genre = "屋台",
+                                Address = "ベンタイン市場周辺",
+                                Description = "多彩なストリートフード"
+                            }
+                        );
 
-            <!-- メニュー -->
-            <div class="collapse navbar-collapse"
-                 id="navbarMenu">
+                        int saved = await context.SaveChangesAsync();
+                        Console.WriteLine($"✅ 初期データ {saved} 件を投入しました！");
+                    }
+                    else
+                    {
+                        Console.WriteLine("⚡ すでにデータが存在しています。");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ エラー発生: {ex.Message}");
+                }
+            }
 
-                <ul class="navbar-nav ms-auto align-items-lg-center">
+            // 通常のアプリ起動処理
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fw-semibold"
-                           asp-controller="Home"
-                           asp-action="Index">
-                            ホーム
-                        </a>
-                    </li>
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fw-semibold"
-                           asp-controller="Restaurants"
-                           asp-action="Index">
-                            レストラン一覧
-                        </a>
-                    </li>
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fw-semibold"
-                           asp-controller="Restaurants"
-                           asp-action="Create">
-                            新規投稿
-                        </a>
-                    </li>
+            app.MapRazorPages();
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fw-semibold"
-                           asp-controller="MyPage"
-                           asp-action="Index">
-                            マイページ
-                        </a>
-                    </li>
-
-                    <!-- ログイン状態 -->
-                    <li class="nav-item ms-lg-3">
-                        <partial name="_LoginPartial" />
-                    </li>
-
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <!-- メイン -->
-    <main class="container py-4">
-        @RenderBody()
-    </main>
-
-    <!-- フッター -->
-    <footer class="bg-white border-top mt-5">
-        <div class="container py-3 text-center text-muted">
-
-            © 2026 SafeBite VN-JP
-
-        </div>
-    </footer>
-
-    <!-- JS -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/js/site.js"
-            asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
-
-</body>
-</html>
+            app.Run();
+        }
+    }
+}
