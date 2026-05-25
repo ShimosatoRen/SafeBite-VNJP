@@ -31,3 +31,189 @@
         }
     </tbody>
 </table> *@
+
+@{
+    ViewData["Title"] = "ホーム";
+}
+
+<!-- ナビバー -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+
+    <div class="container">
+
+        <!-- ロゴ -->
+        <a class="navbar-brand fw-bold text-success fs-3"
+           asp-controller="Home"
+           asp-action="Index">
+
+            SafeBite VN-JP
+        </a>
+
+        <!-- スマホボタン -->
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- メニュー -->
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav mx-auto gap-3">
+
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold"
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                        ホーム
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold"
+                       asp-controller="Restaurants"
+                       asp-action="Index">
+
+                        レストラン一覧
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold">
+                        新規投稿
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold">
+                        マイページ
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 右ボタン -->
+            <div class="d-flex gap-2">
+
+                <a class="btn btn-outline-success px-4"
+                   asp-controller="Account"
+                   asp-action="Login">
+
+                    ログイン
+                </a>
+
+                <a class="btn btn-success px-4"
+                   asp-controller="Account"
+                   asp-action="Register">
+
+                    ユーザー登録
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ヒーロー -->
+<section class="hero-section">
+
+    <div class="hero-overlay">
+
+        <div class="container hero-content">
+
+            <h1 class="hero-title">
+                ベトナム・日本の<br />
+                食の安全を共有しよう
+            </h1>
+
+            <p class="hero-subtitle">
+                現地で食べた料理の情報を投稿して、<br />
+                みんなで安心できる食体験をつくりましょう。
+            </p>
+
+            <a class="btn btn-success btn-lg hero-button"
+               asp-controller="Restaurants"
+               asp-action="Index">
+
+                レストラン一覧を見る
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- 特徴 -->
+<section class="feature-wrapper">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <!-- カード1 -->
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        👥
+                    </div>
+
+                    <h3>
+                        食の安全情報を共有
+                    </h3>
+
+                    <p>
+                        現地の食材や調理方法に関する
+                        情報を共有できます。
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- カード2 -->
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📷
+                    </div>
+
+                    <h3>
+                        写真つきでわかりやすい
+                    </h3>
+
+                    <p>
+                        料理やお店の写真を投稿して、
+                        より詳しく伝えられます。
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- カード3 -->
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        💚
+                    </div>
+
+                    <h3>
+                        みんなで安心をつくる
+                    </h3>
+
+                    <p>
+                        みんなの投稿が、
+                        誰かの安心につながります。
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
