@@ -1,27 +1,35 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SafeBite_VNJP.Models;
 
 namespace SafeBite_VNJP.Data
 {
-    /// データベース接続とテーブル管理を行うクラス
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : DbContext
     {
-        // コンストラクター（接続設定を受け取る）
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
 
-        // 各テーブルのDbSet（データベースのテーブルに対応）
+        public DbSet<User> Users { get; set; }
+
         public DbSet<Restaurant> Restaurants { get; set; }
-        public DbSet<IngredientPost> IngredientPosts { get; set; }
+
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<IngredientPost> IngredientPosts { get; set; }
+
+        public DbSet<DietaryTag> DietaryTags { get; set; }
+
+        public DbSet<RestaurantDietaryTag> RestaurantDietaryTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<RestaurantDietaryTag>()
+                .HasKey(rdt => new
+                {
+                    rdt.RestaurantId,
+                    rdt.DietaryTagId
+                });
         }
     }
 }
