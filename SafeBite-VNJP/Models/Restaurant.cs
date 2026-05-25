@@ -1,4 +1,4 @@
-﻿namespace SafeBite_VNJP.Models
+namespace SafeBite_VNJP.Models
 {
     public class Restaurant
     {

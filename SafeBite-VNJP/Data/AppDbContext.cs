@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SafeBite_VNJP.Models;
 
 namespace SafeBite_VNJP.Data
